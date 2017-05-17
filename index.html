@@ -14,20 +14,17 @@
             <div class="small-6 columns">
                 <h1 class="text-center">YOU</h1>
                 <div class="healthbar">
-                    <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;"
-                    :style="{width:playerHealth +'%'}"
-                    >
-                    {{playerHealth}}%
+                    <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;" :style="{width:playerHealth +'%'}">
+                        {{playerHealth}}%
                     </div>
-                    
+
                 </div>
             </div>
             <div class="small-6 columns">
                 <h1 class="text-center">MONSTER</h1>
                 <div class="healthbar">
-                    <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;"
-                    :style="{width:monsterHealth +'%'}">
-                    {{monsterHealth}}%
+                    <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;" :style="{width:monsterHealth +'%'}">
+                        {{monsterHealth}}%
                     </div>
                 </div>
             </div>
@@ -40,8 +37,8 @@
         <section class="row controls" v-if="isStarted">
             <div class="small-12 columns">
                 <button id="attack" @click="battle(1,1)">ATTACK</button>
-                <button id="special-attack">SPECIAL ATTACK</button>
-                <button id="heal">HEAL</button>
+                <button id="special-attack" @click="battle(2,1,0)">SPECIAL ATTACK</button>
+                <button id="heal" @click="battle(0,1,1)">HEAL</button>
                 <button id="give-up" @click="isStarted=false">GIVE UP</button>
             </div>
         </section>
@@ -49,8 +46,9 @@
             <div class="small-12 columns">
                 <ul>
                     <li v-for="object in log" :class="object.class">
-                        <span v-if="object.class==='monster-turn'">Monster hits player for {{object.hitPower}}</span>
-                        <span v-else>Player hits monster for {{object.hitPower}}</span>
+                        <span v-if="object.type === 'monsterAttack'">Monster hits player for {{Math.abs(object.hitPower)}}</span>
+                        <span v-if="object.type === 'playerHealing'">Player heals for {{Math.abs(object.hitPower)}}</span>
+                        <span v-if="object.type === 'playerAttack'">Player hits monster for {{Math.abs(object.hitPower)}}</span>
                     </li>
                 </ul>
             </div>
